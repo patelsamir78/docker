@@ -1,0 +1,9 @@
+FROM microsoft/windowsservercore
+
+LABEL Description="IIS" Vendor="Microsoft" Version="10"
+
+RUN powershell -Command Add-WindowsFeature Web-Server
+RUN powershell -Command New-Item -Type Directory c:\test
+RUN powershell -Command New-IISSite -Name TestSite -BindingInformation "*:80:TestSite" -PhysicalPath c:\test
+ADD . C:\\test
+CMD [ "ping", "localhost", "-t" ]
